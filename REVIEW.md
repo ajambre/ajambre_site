@@ -157,7 +157,7 @@ Sem periodicidade, sem "/mês", sem desconto, sem parcelamento, sem setup, sem f
 | Item | Estado |
 |---|---|
 | `metadata` por rota | ✅ title, description, canonical, OG, Twitter |
-| `metadataBase` | ✅ `https://ajambre.com.br` |
+| `metadataBase` | ✅ `https://www.ajambre.com.br` (o apex redireciona 308 para o www) |
 | `robots.ts` | ✅ |
 | `sitemap.ts` | ✅ 5 rotas, sem espaço acidental |
 | Imagem Open Graph | ✅ `og-ajambre.png` 1200×630 |

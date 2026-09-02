@@ -1,6 +1,9 @@
 # AJAMBRE — Site Institucional
 
-Site institucional da **AJAMBRE**, em `https://ajambre.com.br`.
+Site institucional da **AJAMBRE**, em `https://www.ajambre.com.br`.
+
+> O **www é o domínio canônico**. O apex `ajambre.com.br` responde 308 para ele — é assim
+> que a Vercel está configurada, e o código segue essa configuração.
 
 Este repositório contém **apenas o site institucional**. LeadBase e Business Scanner são
 produtos independentes, com repositórios próprios — ver [Projetos relacionados](#projetos-relacionados).
@@ -212,7 +215,7 @@ e **nunca** escreva valores reais no arquivo de exemplo.
 
 | Variável | Estado |
 |---|---|
-| `NEXT_PUBLIC_SITE_URL` | opcional (o código usa `https://ajambre.com.br`) |
+| `NEXT_PUBLIC_SITE_URL` | opcional (o código usa `https://www.ajambre.com.br`) |
 | `NEXT_PUBLIC_GTM_ID` | ⏳ pendente — **único ID de tracking do projeto** |
 | `NEXT_PUBLIC_WHATSAPP` | ⏳ pendente — número oficial não confirmado |
 | `NEXT_PUBLIC_SUPABASE_URL` | ⏳ pendente |
@@ -253,7 +256,8 @@ prejudiquem a leitura.
 ## SEO
 
 - `metadata` por rota: title, description, canonical, Open Graph e Twitter Card
-- `metadataBase`: `https://ajambre.com.br`
+- `metadataBase`: `https://www.ajambre.com.br` — o canonical precisa apontar para o destino
+  final, não para o apex, que redireciona
 - [`robots.ts`](src/app/robots.ts) e [`sitemap.ts`](src/app/sitemap.ts) com as 5 rotas
 - Imagem Open Graph: `public/images/og-ajambre.png` (1200×630)
 - JSON-LD `Organization` no layout — **somente dados confirmados**: nome, URL, logo, e-mail,

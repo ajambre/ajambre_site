@@ -10,7 +10,7 @@
 **Este repositório é exclusivamente o site institucional da AJAMBRE.**
 
 ```text
-Domínio:    https://ajambre.com.br
+Domínio:    https://www.ajambre.com.br   (canônico; o apex redireciona 308 para cá)
 Diretório:  C:\dev\ajambre-site
 ```
 

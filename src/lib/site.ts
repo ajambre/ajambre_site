@@ -10,7 +10,12 @@ export const siteConfig = {
   name: "AJAMBRE",
   /** Assinatura presente no próprio logotipo da marca. */
   tagline: "Solução MarTechIA para Negócios",
-  url: "https://ajambre.com.br",
+  /**
+   * Domínio canônico. A Vercel tem o www como primário: o apex responde 308 para
+   * cá. O canonical, o sitemap e o JSON-LD precisam apontar para o destino final,
+   * não para uma URL que redireciona.
+   */
+  url: "https://www.ajambre.com.br",
   cnpj: "36.607.626/0001-08",
   email: "contato@ajambre.com.br",
   description:
