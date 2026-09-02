@@ -59,9 +59,14 @@ Bloqueiam tarefas específicas. Nenhuma delas deve ser resolvida com suposição
 - [x] `npm run lint` — sem warning nem erro
 - [x] `npm run build` — 11 páginas, todas estáticas
 - [x] Verificação HTTP no servidor de produção — 10 rotas em 200, inexistente em 404
-- [ ] Inicializar repositório Git — **requer autorização humana**
-- [ ] Configurar `git config --local user.name` / `user.email` — **não** usar `--global`
-- [ ] Conectar ao remote do GitHub já existente
+- [x] Inicializar repositório Git — autorizado; `git init -b main`
+- [x] Identidade **local**: `AJAMBRE` / `ajambre.se@gmail.com` (a global permanece intocada)
+- [x] Commit inicial — 56 arquivos, sem secret, sem `node_modules`, sem `.next`
+- [ ] ⛔ Conectar ao remote do GitHub já existente — **falta a URL do repositório**
+- [ ] Push da branch `main` — requer autorização e o remote configurado
+- [ ] Avaliar `.gitattributes` com `* text=auto eol=lf` — o repositório é escrito no Windows
+      (Git avisa sobre conversão CRLF) e buildado no Linux pela Vercel. Não é bloqueante,
+      mas evita diff ruidoso se outra máquina tiver `core.autocrlf` diferente
 
 ## Home
 
