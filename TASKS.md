@@ -62,8 +62,11 @@ Bloqueiam tarefas específicas. Nenhuma delas deve ser resolvida com suposição
 - [x] Inicializar repositório Git — autorizado; `git init -b main`
 - [x] Identidade **local**: `AJAMBRE` / `ajambre.se@gmail.com` (a global permanece intocada)
 - [x] Commit inicial — 56 arquivos, sem secret, sem `node_modules`, sem `.next`
-- [ ] ⛔ Conectar ao remote do GitHub já existente — **falta a URL do repositório**
-- [ ] Push da branch `main` — requer autorização e o remote configurado
+- [x] Remote configurado: `origin` → `https://github.com/ajambre/ajambre_site.git`
+- [x] Push da branch `main` — autorizado e concluído; local e remoto idênticos
+- [ ] **Confirmar na Vercel** que o projeto está ligado a `ajambre/ajambre_site` e que a
+      branch de produção é `main`. O repositório estava vazio antes deste push, então a
+      integração Git pode ainda não existir — nesse caso o deploy não dispara sozinho
 - [ ] Avaliar `.gitattributes` com `* text=auto eol=lf` — o repositório é escrito no Windows
       (Git avisa sobre conversão CRLF) e buildado no Linux pela Vercel. Não é bloqueante,
       mas evita diff ruidoso se outra máquina tiver `core.autocrlf` diferente
