@@ -1,5 +1,4 @@
-import Link from "next/link";
-
+import { RevealCard } from "@/components/ui/RevealCard";
 import { Section, SectionHeader } from "@/components/ui/Section";
 
 type Solucao = {
@@ -63,40 +62,29 @@ export function Solucoes() {
     <Section id="solucoes" labelledBy="solucoes-titulo">
       <SectionHeader
         id="solucoes-titulo"
-        overline="O que fazemos"
+        eyebrow="O que fazemos"
         title="Sete frentes que só fazem sentido juntas."
         lead="Cada uma resolve um pedaço do caminho. A AJAMBRE trabalha para que elas não sejam sete contratos desconectados, e sim uma operação com começo, meio e continuidade."
       />
 
-      <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <p className="mt-6 text-sm text-muted">
+        Toque em uma frente para ver o que ela resolve.
+      </p>
+
+      {/*
+        `items-start` é o que impede o card aberto de esticar os vizinhos da
+        mesma linha da grade: cada um cresce sozinho.
+      */}
+      <div className="mt-10 grid items-start gap-6 md:grid-cols-2 lg:grid-cols-3">
         {solucoes.map((solucao) => (
-          <article
+          <RevealCard
             key={solucao.titulo}
-            className="flex flex-col rounded-lg border border-line bg-bg p-7 transition-shadow hover:shadow-card"
-          >
-            <h3 className="text-heading font-semibold">{solucao.titulo}</h3>
-            <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">{solucao.texto}</p>
-
-            <ul className="mt-5 flex flex-wrap gap-2">
-              {solucao.itens.map((item) => (
-                <li
-                  key={item}
-                  className="rounded-sm bg-surface px-2.5 py-1 text-xs font-medium text-muted"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-
-            {solucao.href ? (
-              <Link
-                href={solucao.href}
-                className="mt-6 text-sm font-semibold text-brand underline underline-offset-4 hover:text-brand-strong"
-              >
-                {solucao.cta}
-              </Link>
-            ) : null}
-          </article>
+            titulo={solucao.titulo}
+            texto={solucao.texto}
+            itens={solucao.itens}
+            href={solucao.href}
+            cta={solucao.cta}
+          />
         ))}
       </div>
     </Section>

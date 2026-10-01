@@ -216,11 +216,13 @@ e **nunca** escreva valores reais no arquivo de exemplo.
 | Variável | Estado |
 |---|---|
 | `NEXT_PUBLIC_SITE_URL` | opcional (o código usa `https://www.ajambre.com.br`) |
-| `NEXT_PUBLIC_GTM_ID` | ⏳ pendente — **único ID de tracking do projeto** |
-| `NEXT_PUBLIC_WHATSAPP` | ⏳ pendente — número oficial não confirmado |
-| `NEXT_PUBLIC_SUPABASE_URL` | ⏳ pendente |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ⏳ pendente |
-| `SUPABASE_SERVICE_ROLE_KEY` | ⏳ pendente — **somente server-side** |
+| `NEXT_PUBLIC_GTM_ID` | ✅ definido localmente — **único ID de tracking do projeto** |
+| `NEXT_PUBLIC_WHATSAPP` | ✅ definido localmente — só dígitos, com DDI e DDD |
+
+São as três únicas, e o código só lê duas delas (`GTM_ID` e `WHATSAPP`). As variáveis do
+Supabase e as da Meta saíram do `.env.local.example`: nenhuma linha de código as consome
+hoje, e arquivo de exemplo que promete integração inexistente só gera configuração inútil
+na Vercel. Elas voltam quando a integração correspondente entrar — ver `TASKS.md`.
 
 Regra absoluta: **`service_role` nunca no client.** Nada de secret com prefixo `NEXT_PUBLIC_`.
 
@@ -270,9 +272,17 @@ Endereço, telefone, redes sociais, avaliações, fundadores e número de funcio
 
 ## Tracking
 
-Nenhum script de tracking está instalado e **nenhum ID foi inventado**. O que existe é apenas
-a preparação: o nome da variável em `.env.local.example`, lido por `tracking` em
-[`src/lib/site.ts`](src/lib/site.ts) sem qualquer efeito colateral.
+O GTM está implementado em [`src/components/ConsentGate.tsx`](src/components/ConsentGate.tsx) e
+**só carrega depois do aceite**. Antes disso nenhuma requisição sai para o
+`googletagmanager.com` e nenhum cookie de medição é criado — o banner controla o
+carregamento de verdade, não apenas a própria visibilidade.
+
+O Consent Mode é declarado na ordem correta dentro do mesmo script: `default` negado,
+`update` concedido, e só então o container. Quem recusa não carrega nada; a decisão fica no
+`localStorage` e pode ser revista pelo botão **Preferências de cookies** no rodapé.
+
+Se `NEXT_PUBLIC_GTM_ID` não existir no build, o componente não renderiza nada — sem script
+para carregar, não há o que consentir.
 
 **Só existe um ID no projeto: o do GTM.** GA4, Meta Pixel e Google Ads são configurados como
 tags **dentro do container**, não como scripts separados no código. O motivo é prático:

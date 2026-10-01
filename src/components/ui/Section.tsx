@@ -37,7 +37,7 @@ export function Section({
  * Centraliza a hierarquia tipográfica em um lugar só.
  */
 export function SectionHeader({
-  overline,
+  eyebrow,
   title,
   lead,
   id,
@@ -45,7 +45,7 @@ export function SectionHeader({
   onDark = false,
   className = "",
 }: {
-  overline?: string;
+  eyebrow?: string;
   title: ReactNode;
   lead?: ReactNode;
   id?: string;
@@ -56,9 +56,11 @@ export function SectionHeader({
   const alignment = align === "center" ? "text-center mx-auto items-center" : "";
 
   return (
-    <div className={`flex max-w-3xl flex-col gap-5 ${alignment} ${className}`}>
-      {overline ? (
-        <p className={`overline ${onDark ? "text-white/70 before:bg-white/40" : ""}`}>{overline}</p>
+    <div className={`flex max-w-3xl flex-col ${alignment} ${className}`}>
+      {eyebrow ? (
+        // Espaço maior abaixo do rótulo compensa a ausência do antigo filete:
+        // é o respiro que separa, não mais um traço.
+        <p className={`eyebrow mb-5 ${onDark ? "text-brand-light" : ""}`}>{eyebrow}</p>
       ) : null}
 
       <h2 id={id} className="text-title font-bold">
@@ -66,7 +68,7 @@ export function SectionHeader({
       </h2>
 
       {lead ? (
-        <p className={`text-lead ${onDark ? "text-white/75" : "text-muted"}`}>{lead}</p>
+        <p className={`mt-5 text-lead ${onDark ? "text-white/75" : "text-muted"}`}>{lead}</p>
       ) : null}
     </div>
   );

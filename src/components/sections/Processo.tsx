@@ -43,7 +43,7 @@ export function Processo() {
     <Section labelledBy="processo-titulo">
       <SectionHeader
         id="processo-titulo"
-        overline="Como trabalhamos"
+        eyebrow="Como trabalhamos"
         title="Cinco etapas, sempre nesta ordem."
         lead="Implementar antes de entender costuma sair caro. Por isso o diagnóstico vem primeiro — e a evolução nunca é tratada como fase final."
       />
@@ -60,7 +60,7 @@ export function Processo() {
         ))}
       </ol>
 
-      <div className="mt-16 border-t border-line pt-12">
+      <div className="mt-20">
         <h3 className="text-heading font-semibold">Para quem isso costuma fazer mais sentido</h3>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
           São os contextos em que a desconexão entre marketing e atendimento aparece mais rápido.

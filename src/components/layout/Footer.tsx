@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ConsentPreferencesButton } from "@/components/ConsentGate";
 import { Logo } from "@/components/layout/Logo";
 import { legalRoutes, products, siteConfig } from "@/lib/site";
 
@@ -25,7 +26,7 @@ export function Footer() {
             </p>
             <a
               href={`mailto:${siteConfig.email}`}
-              className="text-sm font-medium text-white underline underline-offset-4 hover:text-brand"
+              className="text-sm font-medium text-white underline underline-offset-4 hover:text-brand-light"
             >
               {siteConfig.email}
             </a>
@@ -65,6 +66,9 @@ export function Footer() {
                 {item.label}
               </FooterLink>
             ))}
+            <li>
+              <ConsentPreferencesButton className="text-left text-sm text-white/70 transition-colors hover:text-white" />
+            </li>
           </FooterColumn>
         </div>
 

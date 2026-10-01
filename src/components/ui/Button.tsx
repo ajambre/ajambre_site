@@ -45,7 +45,12 @@ export function ButtonLink({
 }: ButtonLinkProps) {
   const classes = `${base} ${variants[variant]} ${sizes[size]} ${className}`;
 
-  if (external) {
+  // Qualquer destino http(s) é outro site — inclusive o WhatsApp, que vem do
+  // ambiente. Detectar aqui evita depender de cada chamada lembrar de marcar
+  // `external` e deixar um CTA levando o visitante para fora sem aviso.
+  const isExternal = external || href.startsWith("http://") || href.startsWith("https://");
+
+  if (isExternal) {
     return (
       <a href={href} className={classes} target="_blank" rel="noopener noreferrer">
         {children}

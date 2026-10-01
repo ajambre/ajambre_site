@@ -44,3 +44,5 @@ yarn-error.log*
 *.tmp
 
 # Observacao: os assets de marca em /public (logo, fontes) SAO versionados.
+
+certificates

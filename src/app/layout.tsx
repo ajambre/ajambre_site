@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 
+import { ConsentGate } from "@/components/ConsentGate";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { sora } from "@/lib/fonts";
@@ -82,6 +83,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
 
         <Footer />
+
+        <ConsentGate />
 
         <script
           type="application/ld+json"

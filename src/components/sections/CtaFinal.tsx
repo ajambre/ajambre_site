@@ -1,6 +1,6 @@
 import { Section } from "@/components/ui/Section";
 import { ButtonLink } from "@/components/ui/Button";
-import { contactHref, siteConfig } from "@/lib/site";
+import { contactHref, mailtoHref, siteConfig, whatsappHref } from "@/lib/site";
 
 const perguntas = [
   "De onde veio esse lead?",
@@ -19,11 +19,13 @@ export function CtaFinal() {
     <Section id="contato" tone="dark" labelledBy="cta-titulo">
       <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
         <div>
-          <p className="overline text-white/70 before:bg-white/40">Diagnóstico</p>
-          <h2 id="cta-titulo" className="mt-6 text-title font-bold">
+          {/* Mesmo ritmo do SectionHeader: mb-5 no rótulo, mt-5 na linha de
+              apoio. Antes somavam mb-6 + mt-6 e abriam 48px, destoando do resto. */}
+          <p className="eyebrow mb-5 text-brand-light">Diagnóstico</p>
+          <h2 id="cta-titulo" className="text-title font-bold">
             Sua operação consegue responder isso hoje?
           </h2>
-          <p className="mt-6 max-w-lg text-lead text-white/70">
+          <p className="mt-5 max-w-lg text-lead text-white/70">
             Gerar lead é apenas o começo. Vamos olhar o caminho inteiro e identificar onde sua
             operação está perdendo oportunidade — antes de falar em campanha, ferramenta ou
             proposta.
@@ -39,10 +41,10 @@ export function CtaFinal() {
           </div>
 
           <p className="mt-6 text-sm text-white/50">
-            Contato por e-mail:{" "}
+            {whatsappHref ? "Prefere e-mail? " : "Contato por e-mail: "}
             <a
-              href={contactHref}
-              className="font-medium text-white underline underline-offset-4 hover:text-brand"
+              href={mailtoHref}
+              className="font-medium text-white underline underline-offset-4 hover:text-brand-light"
             >
               {siteConfig.email}
             </a>
@@ -55,7 +57,7 @@ export function CtaFinal() {
               key={pergunta}
               className="flex items-start gap-3 bg-carbon-soft px-5 py-4 text-sm text-white/80"
             >
-              <span aria-hidden="true" className="mt-0.5 font-semibold text-brand">
+              <span aria-hidden="true" className="mt-0.5 font-semibold text-brand-light">
                 ?
               </span>
               {pergunta}

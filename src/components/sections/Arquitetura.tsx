@@ -17,7 +17,7 @@ export function Arquitetura() {
     <Section tone="surface" labelledBy="arquitetura-titulo">
       <SectionHeader
         id="arquitetura-titulo"
-        overline="Arquitetura integrada"
+        eyebrow="Arquitetura integrada"
         title="Uma peça entrega para a próxima."
         lead="Este é o caminho que a AJAMBRE monta e mantém. Nem toda operação usa todas as etapas — o desenho depende do negócio —, mas nenhuma delas deveria existir desconectada das outras."
       />

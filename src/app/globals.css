@@ -34,6 +34,12 @@
     --color-brand: 209 58 10;
     --color-brand-strong: 166 45 8;
     --color-brand-soft: 253 240 235;
+    /*
+      Variação clara do laranja, para uso exclusivo sobre superfícies escuras.
+      O #D13A0A rende apenas 3,9:1 sobre o carbon — reprova AA. Este tom
+      alcança 6,1:1 mantendo a mesma família de cor da marca.
+    */
+    --color-brand-light: 242 102 46;
 
     /* superfícies escuras (faixas de contraste) */
     --color-carbon: 20 17 15;
@@ -102,14 +108,29 @@
 }
 
 @layer components {
-  /* Rótulo de seção: pequeno, espaçado, com filete à esquerda */
-  .overline {
-    @apply flex items-center gap-3 text-overline font-semibold uppercase text-brand;
-  }
+  /*
+    Rótulo de seção.
 
-  .overline::before {
-    content: "";
-    @apply h-px w-8 bg-brand;
+    Duas linhas decorativas foram removidas daqui, e as duas por motivos
+    diferentes:
+
+    1. Havia um filete horizontal explícito (`::before` com `h-px w-8`) antes do
+       texto. Repetido em toda seção, picotava a página. Saiu: a hierarquia
+       agora vem de tipografia, cor e espaço — corpo menor, peso alto, caixa
+       alta e entreletra aberta.
+
+    2. A classe se chamava `.overline` — e `overline` é também um utilitário
+       nativo do Tailwind (`text-decoration-line: overline`). Como a camada de
+       utilities vem depois da de components, o Tailwind desenhava um traço
+       acima de TODO rótulo do site, sem que nada no nosso CSS pedisse isso.
+       Por isso o nome virou `.eyebrow`.
+
+    ⚠️ Não renomear de volta para `.overline`, nem criar classes de componente
+    com nome de utilitário do Tailwind. O token de tamanho `text-overline`
+    (definido em tailwind.config.ts) é outra coisa e continua válido.
+  */
+  .eyebrow {
+    @apply text-overline font-semibold uppercase text-brand;
   }
 
   /* Corpo de texto longo — usado nas páginas legais */

@@ -26,6 +26,8 @@ const config: Config = {
           DEFAULT: "rgb(var(--color-brand) / <alpha-value>)",
           strong: "rgb(var(--color-brand-strong) / <alpha-value>)",
           soft: "rgb(var(--color-brand-soft) / <alpha-value>)",
+          // só sobre fundo escuro — ver a nota de contraste em globals.css
+          light: "rgb(var(--color-brand-light) / <alpha-value>)",
         },
         carbon: {
           DEFAULT: "rgb(var(--color-carbon) / <alpha-value>)",
@@ -53,6 +55,15 @@ const config: Config = {
       boxShadow: {
         card: "0 1px 2px rgb(17 17 17 / 0.04), 0 8px 24px -12px rgb(17 17 17 / 0.10)",
         lift: "0 2px 4px rgb(17 17 17 / 0.05), 0 16px 40px -16px rgb(17 17 17 / 0.16)",
+        /*
+          Halos laranja. Intencionalmente discretos: halo como acento de
+          hierarquia, não como neon. `node` marca pontos da timeline,
+          `glow` reforça card/CTA em foco ou hover.
+        */
+        node: "0 0 0 5px rgb(var(--color-brand) / 0.07), 0 0 20px -4px rgb(var(--color-brand) / 0.40)",
+        "node-dark":
+          "0 0 0 5px rgb(var(--color-brand-light) / 0.10), 0 0 22px -4px rgb(var(--color-brand-light) / 0.45)",
+        glow: "0 1px 2px rgb(17 17 17 / 0.04), 0 10px 30px -14px rgb(var(--color-brand) / 0.45)",
       },
       maxWidth: {
         prose: "68ch",

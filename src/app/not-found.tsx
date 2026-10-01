@@ -11,7 +11,7 @@ export default function NotFound() {
   return (
     <div className="container flex min-h-[60vh] flex-col justify-center py-20">
       <div className="max-w-xl">
-        <p className="overline">Erro 404</p>
+        <p className="eyebrow">Erro 404</p>
         <h1 className="mt-6 text-title font-bold">Esta página não existe.</h1>
         <p className="mt-5 text-lead text-muted">
           O endereço pode ter mudado ou o link pode estar incorreto. Você pode voltar para a

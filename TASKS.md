@@ -13,10 +13,15 @@ Bloqueiam tarefas específicas. Nenhuma delas deve ser resolvida com suposição
 - [ ] **URL pública do Business Scanner** — não encontrada em lugar nenhum. Enquanto isso, o
       produto aparece no site **sem link**. Ao confirmar, preencher
       `products.businessScanner.url` em `src/lib/site.ts` (CTA e link do footer aparecem sozinhos)
-- [ ] **Número oficial de WhatsApp** — todos os CTAs usam `mailto:contato@ajambre.com.br`
-- [ ] **`NEXT_PUBLIC_GTM_ID`** — container do Google Tag Manager. **Único ID de tracking
-      do projeto**: GA4, Meta Pixel e Google Ads são configurados dentro do GTM, não como
-      scripts separados no código, para não duplicar pageview e conversão
+- [x] **Número oficial de WhatsApp** — confirmado e configurado em `NEXT_PUBLIC_WHATSAPP`.
+      Os CTAs usam `wa.me`; o e-mail permanece como alternativa. Sem a variável, tudo volta
+      para `mailto:` automaticamente
+- [x] **`NEXT_PUBLIC_GTM_ID`** — obtido e configurado. **Único ID de tracking do projeto**:
+      GA4, Meta Pixel e Google Ads são tags dentro do GTM, não scripts no código
+- [ ] 🔴 **Definir as env vars na Vercel** — `.env.local` é só local. Enquanto
+      `NEXT_PUBLIC_GTM_ID` e `NEXT_PUBLIC_WHATSAPP` não existirem no projeto da Vercel, a
+      produção continua sem tracking e com CTA de e-mail. São inlined no build: exige
+      **redeploy** depois de cadastrar
 - [ ] **Environment variables da Vercel** — nenhuma configurada
 - [ ] **Credenciais do Supabase do site** — projeto existe, mas não está conectado
 - [ ] **Referências visuais** — sites externos que servirão de norte para o refino da UI
@@ -85,8 +90,42 @@ Bloqueiam tarefas específicas. Nenhuma delas deve ser resolvida com suposição
 - [x] Como trabalhamos — 5 etapas
 - [x] Para quem faz sentido
 - [x] CTA final com as 9 perguntas de diagnóstico
+- [x] **Timeline do fluxo** — as 9 etapas viraram linha do tempo com trilho em gradiente,
+      nós com halo, blocos alternando lados no desktop e coluna única no mobile. Sem JS
+- [x] **"O que fazemos" em cards interativos** — disclosure acessível (botão no heading,
+      `aria-expanded`, teclado nativo, sem depender de hover)
+- [x] **Diagnóstico multi-step** — 6 etapas, progresso, redirect para WhatsApp com as
+      respostas montadas na mensagem; e-mail como alternativa se faltar a env var
+- [x] **Filetes decorativos removidos** — inclusive a linha fantasma causada por colisão do
+      nome `.overline` com o utilitário nativo do Tailwind
+- [x] **Copy acima da dobra refinada** — hero da home na direção A (headline diz o que a
+      AJAMBRE é), hero de Atendimento com IA, bullets de ganho, texto de apoio do CTA e
+      diagrama do caminho do lead
+- [x] **Preço da IA centralizado** — estava escrito à mão na metadata e no título da seção
+      de investimento; agora sai de `pricing` em um lugar só
+- [ ] **Decidir o CTA do header** — hoje é "Falar com a AJAMBRE" (WhatsApp direto). Se o
+      diagnóstico deve ser a ação principal em todas as páginas, ele passa a ser
+      "Fazer diagnóstico" → `/#diagnostico`. Não mudei por conta própria para não remover
+      o caminho direto de contato sem sua decisão
 - [ ] Revisar copy com o time comercial
 - [ ] Refinar UI quando as referências visuais chegarem
+- [ ] 🔴 **Testar em navegador real** — NÃO foi possível automatizar: esta sessão não tem
+      ferramenta de browser, e o browser embutido não alcança `localhost` iniciado pelo
+      agente. Checklist manual (`npm run dev`, depois http://localhost:3000):
+      - [ ] abrir e fechar os 7 cards de "O que fazemos" por clique e por teclado
+            (Tab até o card, Enter/Espaço) — confirmar que o anel de foco aparece inteiro
+      - [ ] percorrer o quiz até o fim e conferir o texto que chega no WhatsApp
+      - [ ] testar o quiz com o redirect bloqueado (bloqueador de pop-up ativo):
+            deve aparecer o painel "Continuar a conversa" com link manual
+      - [ ] percorrer tudo por teclado, inclusive banner de cookies e menu mobile
+      - [ ] conferir em 375px, 768px e desktop
+- [x] **QA estático da rodada visual** — HTML e CSS servidos conferidos: nenhuma linha
+      decorativa restante, 6 etapas do quiz presentes no bundle, semântica de disclosure
+      e de progresso corretas, contraste recalculado
+- [ ] Decidir se o diagnóstico também grava no Supabase — hoje ele só encaminha para o
+      WhatsApp. Gravar exigiria criar tabela, o que depende de autorização explícita
+- [ ] Avaliar incluir "Diagnóstico" no menu — hoje o acesso é pelo 2º CTA do hero e por
+      rolagem
 
 ## Atendimento com IA
 
@@ -123,14 +162,53 @@ Bloqueiam tarefas específicas. Nenhuma delas deve ser resolvida com suposição
 - [ ] Consolidar a nomenclatura ("Business Scanner" vs "Business Intelligence")
 - [ ] ⛔ **Nunca** editar o repositório do produto a partir deste
 
+## WhatsApp Embedded Signup — fora do site institucional
+
+A rota `/connect/whatsapp` chegou pela branch `feat/whatsapp-embedded-signup` e foi
+**removida da publicação atual** em 29/09/2026, por decisão do responsável.
+
+Motivos registrados na inspeção:
+
+- é ferramenta operacional/técnica, não conteúdo institucional;
+- estava no `sitemap.ts` apesar de declarar `robots: noindex, nofollow` — sinais
+  contraditórios para o Google;
+- carregava o SDK da Meta (`connect.facebook.net`) com `cookie: true` num `useEffect`,
+  ou seja **ao abrir a página**, sem consultar o consentimento. Contradizia diretamente a
+  regra do projeto, em que nem o GTM carrega antes do aceite;
+- o painel de debug renderizava em tela o **código de autorização OAuth** devolvido pela
+  Meta — credencial de curta duração, exposta a screenshot e a compartilhamento de tela;
+- o fluxo estava pela metade: sem a troca server-side do `code` por token, a rota não
+  conectava nada — provava apenas que o Embedded Signup abre.
+
+O que o código **acertava** e vale reaproveitar: validação de origem no `postMessage`
+contra allowlist da Meta antes de qualquer parse, e redação automática de qualquer campo
+cujo nome contenha "token".
+
+**Retomar em branch e fluxo próprios**, com:
+
+- [ ] carregamento do SDK **condicionado ao consentimento** — e disparado no clique, não no
+      carregamento da página
+- [ ] sem painel de debug público; em especial, **nunca** renderizar o `code` OAuth
+- [ ] **fora do `sitemap.ts`**, e coerente com o `robots` que a página declarar
+- [ ] acesso protegido, não uma URL pública do site institucional
+- [ ] troca do `code` por token **server-side**, com o App Secret fora do client
+- [ ] só então reintroduzir `NEXT_PUBLIC_META_APP_ID` e `NEXT_PUBLIC_META_WHATSAPP_CONFIG_ID`
+      no `.env.local.example`
+
+> Os arquivos removidos não estavam versionados, então não há commit para reverter. Uma
+> cópia foi guardada no diretório temporário da máquina durante a remoção — se for retomar,
+> recupere de lá ou reescreva a partir deste registro.
+
 ## Tracking
 
 - [x] Variável documentada em `.env.local.example` — **só `NEXT_PUBLIC_GTM_ID`**
 - [x] Leitura sem efeito colateral em `src/lib/site.ts`
 - [x] Nenhum script carregado, nenhum ID inventado
-- [ ] ⛔ Obter o ID do container GTM
-- [ ] Implementar o GTM no código, condicionado a consentimento — **é o único script de
+- [x] ⛔ Obter o ID do container GTM
+- [x] Implementar o GTM no código, condicionado a consentimento — **é o único script de
       tracking que entra no site**
+- [ ] Cadastrar as variáveis na Vercel e redeployar para ativar em produção
+- [ ] Testar o fluxo de consentimento em navegador real (aceitar, recusar, rever no rodapé)
 - [ ] Configurar GA4 **como tag dentro do GTM** (não como script no código)
 - [ ] Configurar Meta Pixel **como tag dentro do GTM**
 - [ ] Configurar conversões do Google Ads **como tag dentro do GTM**
@@ -144,9 +222,9 @@ Bloqueiam tarefas específicas. Nenhuma delas deve ser resolvida com suposição
 - [x] Exclusão de Dados
 - [x] CNPJ no footer
 - [x] Links legais no footer
-- [ ] **Banner de consentimento** — não implementado de propósito: como nenhum script de
-      tracking carrega, não há o que consentir. Implementar **junto** com o tracking, controlando
-      tecnicamente o carregamento. Banner que só some da tela é pior do que banner nenhum
+- [x] **Banner de consentimento** — implementado junto com o GTM, controlando tecnicamente o
+      carregamento. Aceitar / Recusar, decisão no `localStorage`, revisável pelo botão
+      "Preferências de cookies" no rodapé. Sem aceite, nada é carregado
 - [ ] Consent Mode do Google, se aplicável
 - [ ] Revisão jurídica dos três documentos legais
 
@@ -154,6 +232,10 @@ Bloqueiam tarefas específicas. Nenhuma delas deve ser resolvida com suposição
 
 - [x] Nenhum projeto novo criado
 - [x] Nenhuma migration ou tabela criada sem necessidade
+- [x] Variáveis do Supabase **retiradas do `.env.local.example`** em 29/09/2026 — nenhuma
+      linha de código as consome hoje (o diagnóstico encaminha para WhatsApp/e-mail, não
+      grava). Os valores continuam intactos no `.env.local` da máquina; reintroduzir no
+      exemplo quando a integração entrar
 - [ ] ⛔ Conectar o projeto existente quando houver formulário
 - [ ] Processar submissões **server-side** (Route Handler ou Server Action)
 - [ ] ⛔ `service_role` **jamais** no client

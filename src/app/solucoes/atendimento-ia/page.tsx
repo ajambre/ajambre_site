@@ -6,9 +6,15 @@ import { Section, SectionHeader } from "@/components/ui/Section";
 import { contactHref, pricing, siteConfig } from "@/lib/site";
 
 const titulo = "Atendimento com IA";
+
+/**
+ * O mesmo valor de `pricing`, só com a inicial minúscula para caber no meio de
+ * uma frase. Sem número escrito aqui: o preço vive em um lugar só.
+ */
+const valorIa = pricing.ia.value.replace("A partir de", "a partir de");
 const descricao =
   "Agentes de IA que recebem o contato, coletam informação, ajudam a qualificar e encaminham " +
-  "para a pessoa certa — com registro no CRM. Projetos de IA a partir de R$ 3.000.";
+  `para a pessoa certa — com registro no CRM. Projetos de IA ${valorIa}.`;
 
 export const metadata: Metadata = {
   title: titulo,
@@ -98,6 +104,14 @@ const agentes = [
   },
 ];
 
+/** Bullets do hero: o ganho concreto, em quatro linhas curtas. */
+const ganhos = [
+  "Atendimento inicial mais rápido",
+  "Qualificação antes da conversa humana",
+  "Registro organizado no CRM",
+  "Follow-up com mais processo",
+];
+
 const beneficios = [
   "Primeiro atendimento mais rápido",
   "Menos oportunidades esquecidas",
@@ -126,24 +140,45 @@ export default function AtendimentoIaPage() {
       <section className="border-b border-line bg-surface">
         <div className="container py-20 sm:py-28">
           <div className="max-w-3xl">
-            <p className="overline">Atendimento com IA</p>
+            <p className="eyebrow">Atendimento com IA</p>
             <h1 className="mt-7 text-display font-bold">
-              O lead chegou. Quanto tempo até começar o atendimento?
+              Seu lead chegou. Quem responde primeiro?
             </h1>
             <p className="mt-7 text-lead text-muted">
-              Entre a mensagem que entra e a primeira resposta existe uma janela que decide muita
-              coisa. A AJAMBRE monta arquiteturas de atendimento com IA para que essa janela seja
-              curta, o contexto seja registrado e a conversa chegue organizada em quem vai decidir.
+              A AJAMBRE cria fluxos de IA para atendimento inicial, qualificação, organização e
+              encaminhamento para o time humano.
             </p>
 
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href={contactHref} size="lg">
-                Conversar sobre uma estrutura de IA
+                Conversar sobre IA
               </ButtonLink>
               <ButtonLink href="#como-atua" variant="outline" size="lg">
                 Ver como funciona
               </ButtonLink>
             </div>
+
+            {/*
+              O valor vem de `pricing`, não escrito à mão: preço só existe em um
+              lugar no projeto. A ressalva de custos de terceiros acompanha o
+              número desde a primeira menção, como manda a regra do repositório.
+            */}
+            <p className="mt-4 text-sm text-muted">
+              Projetos de IA {valorIa}. Custos de
+              APIs e infraestrutura são tratados conforme a arquitetura.
+            </p>
+
+            <ul className="mt-10 grid gap-x-6 gap-y-3 sm:grid-cols-2">
+              {ganhos.map((ganho) => (
+                <li key={ganho} className="flex items-start gap-2.5 text-sm text-ink">
+                  <span
+                    aria-hidden="true"
+                    className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand"
+                  />
+                  {ganho}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
@@ -152,7 +187,7 @@ export default function AtendimentoIaPage() {
       <Section labelledBy="problemas-ia">
         <SectionHeader
           id="problemas-ia"
-          overline="O que costuma acontecer"
+          eyebrow="O que costuma acontecer"
           title="O problema raramente é o time. É o intervalo."
           lead="Nenhuma equipe consegue estar disponível o tempo todo, lembrar de tudo e registrar cada conversa manualmente. É exatamente esse intervalo que a IA cobre."
         />
@@ -171,7 +206,7 @@ export default function AtendimentoIaPage() {
       <Section id="como-atua" tone="surface" labelledBy="como-atua-titulo">
         <SectionHeader
           id="como-atua-titulo"
-          overline="Como a IA atua"
+          eyebrow="Como a IA atua"
           title="Do primeiro contato ao encaminhamento."
           lead="O agente não substitui a conversa comercial: ele faz com que ela comece mais cedo, com informação e sem depender de quem está online naquele momento."
         />
@@ -193,7 +228,7 @@ export default function AtendimentoIaPage() {
       <Section labelledBy="agentes-titulo">
         <SectionHeader
           id="agentes-titulo"
-          overline="Tipos de agente"
+          eyebrow="Tipos de agente"
           title="A arquitetura depende do que o negócio precisa."
           lead="Não existe um agente único que sirva para tudo. O desenho começa pela pergunta: o que precisa acontecer entre o contato chegar e alguém assumir a conversa?"
         />
@@ -233,7 +268,7 @@ export default function AtendimentoIaPage() {
             <SectionHeader
               id="beneficios-titulo"
               onDark
-              overline="O que muda na prática"
+              eyebrow="O que muda na prática"
               title="Menos coisa dependendo de memória."
               lead="O ganho não está em responder por responder: está em transformar a entrada da operação em algo previsível e registrado."
             />
@@ -241,7 +276,7 @@ export default function AtendimentoIaPage() {
             <ul className="mt-10 grid gap-2.5 sm:grid-cols-2">
               {beneficios.map((item) => (
                 <li key={item} className="flex items-start gap-3 text-sm text-white/80">
-                  <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brand" />
+                  <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brand-light" />
                   {item}
                 </li>
               ))}
@@ -249,7 +284,7 @@ export default function AtendimentoIaPage() {
           </div>
 
           <div className="rounded-lg border border-carbon-line bg-carbon-soft p-8">
-            <p className="text-overline font-semibold uppercase text-brand">IA e pessoas</p>
+            <p className="text-overline font-semibold uppercase text-brand-light">IA e pessoas</p>
             <h2 className="mt-4 text-heading font-semibold">
               IA onde faz sentido. Pessoas onde fazem diferença.
             </h2>
@@ -278,8 +313,8 @@ export default function AtendimentoIaPage() {
       <Section tone="surface" labelledBy="investimento-ia">
         <SectionHeader
           id="investimento-ia"
-          overline="Investimento"
-          title="Projetos de IA a partir de R$ 3.000."
+          eyebrow="Investimento"
+          title={`Projetos de IA ${valorIa}.`}
           lead="O valor parte deste ponto porque o escopo varia: canais atendidos, integrações necessárias, o que precisa ser qualificado e o que precisa ser registrado."
         />
 

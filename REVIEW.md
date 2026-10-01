@@ -168,23 +168,71 @@ Sem periodicidade, sem "/mês", sem desconto, sem parcelamento, sem setup, sem f
 
 ## 5. Tracking
 
-**Nenhum script foi instalado. Nenhum ID foi inventado.**
+**Um único ID: `NEXT_PUBLIC_GTM_ID`.** GA4, Meta Pixel e Google Ads entram como tags dentro
+do container, não como scripts no código. Carregar cada um por fora duplicaria pageview e
+conversão e espalharia o controle de consentimento por vários pontos do site.
 
-Preparado apenas:
+**O consentimento controla o carregamento de verdade.** Implementado em
+`src/components/ConsentGate.tsx`: antes do aceite, nenhuma requisição sai para o
+`googletagmanager.com` e nenhum cookie de medição é criado. Verificado no HTML gerado —
+zero ocorrências de `googletagmanager` e o ID do container nem aparece no HTML estático.
 
-- nome em `.env.local.example`: `NEXT_PUBLIC_GTM_ID` — **único ID de tracking**. GA4,
-  Meta Pixel e Google Ads entram como tags dentro do GTM, não como scripts no código:
-  carregar cada um por fora duplicaria pageview e conversão e espalharia o controle de
-  consentimento por vários pontos;
-- leitura desses nomes em `src/lib/site.ts` (`tracking`), sem efeito colateral;
-- documentação de que o carregamento deve ser condicionado a consentimento.
+Consent Mode declarado na ordem correta dentro do mesmo script: `default` negado, `update`
+concedido, e só então o container. Quem recusa não carrega nada. A decisão fica no
+`localStorage` e pode ser revista pelo botão "Preferências de cookies" no rodapé.
 
-**Banner de cookies: deliberadamente não implementado.** Um banner que apenas some da tela
-enquanto os scripts continuam rodando é pior do que não ter banner. Como ainda não há
-script algum, não há o que consentir. Registrado em `TASKS.md`.
+Sem `NEXT_PUBLIC_GTM_ID` no build, o componente não renderiza nada — sem script para
+carregar, não há o que consentir, e um banner nesse cenário seria só ruído.
+
+> ⚠️ **Falta cadastrar as variáveis na Vercel.** `.env.local` vale só na máquina local.
+> Como as `NEXT_PUBLIC_*` são inlined em tempo de build, a produção segue sem tracking e
+> com CTA de e-mail até que sejam definidas no projeto **e um novo deploy rode**.
 
 **`generate_lead`: não disparado.** Não existe formulário nem conversão real nesta fase, e
-nenhum CTA dispara evento ao clique. Todos os CTAs são `mailto:contato@ajambre.com.br`.
+nenhum CTA dispara evento ao clique. O evento só deve existir quando houver submissão real.
+
+**Contato.** Com `NEXT_PUBLIC_WHATSAPP` definido, os CTAs apontam para `wa.me` com mensagem
+inicial preenchida; o e-mail permanece visível como alternativa no rodapé e no CTA final.
+Sem a variável, tudo volta automaticamente para `mailto:` — a ausência de configuração não
+quebra nenhum botão.
+
+---
+
+## 5.1 Refinamento visual e UX — rodada de 11/09/2026
+
+**Linhas decorativas removidas.** O filete horizontal antes de cada rótulo de seção saiu, e
+com ele a barra vertical do destaque em "O diagnóstico", os `border-t` acima do bloco "Para
+quem" e das notas internas de card, e o filete entre o hero e a cadeia da operação. A
+hierarquia passou a se apoiar em tipografia, espaço e blocos de cor.
+
+**Causa raiz encontrada.** Além do filete explícito, havia uma segunda linha que ninguém
+tinha pedido: a classe de componente chamava-se `.overline`, que é também um utilitário
+nativo do Tailwind (`text-decoration-line: overline`). Como utilities vencem components na
+cascata, o Tailwind aplicava um traço acima de **todos** os rótulos. Classe e prop foram
+renomeadas para `eyebrow`. Registrado em `CLAUDE.md` para não voltar.
+
+**Contraste corrigido no escuro.** O laranja da marca rende 3,9:1 sobre o carbon — reprova
+AA. Foi criado o token `--color-brand-light` (`#F2662E`), da mesma família, com 6,0:1 sobre
+o carbon e 5,4:1 sobre o carbon-soft. Usado só em superfície escura.
+
+**Timeline.** O fluxo de 9 etapas deixou de ser grade e virou linha do tempo: trilho em
+gradiente laranja que desvanece nas pontas, nós numerados com halo discreto, blocos
+alternando lados no desktop e coluna única no mobile. Sem JavaScript — os microefeitos são
+`transition` de CSS, então a seção continua Server Component.
+
+**Cards interativos.** "O que fazemos" virou disclosure acessível: `<button>` real dentro do
+heading, `aria-expanded`, painel animado por `grid-template-rows` de `0fr` a `1fr` e
+`visibility` tirando o conteúdo fechado da ordem de tabulação. Flip 3D foi descartado —
+mantém o verso no DOM, leva o Tab para links invisíveis e exige altura fixa.
+
+**Diagnóstico multi-step.** Seis etapas, avanço automático nas de escolha única, barra de
+progresso com `role="progressbar"`, foco movido para o cabeçalho a cada troca de etapa. Ao
+concluir, redireciona para o WhatsApp com as respostas já escritas na mensagem; sem
+`NEXT_PUBLIC_WHATSAPP` no build, cai para e-mail com o mesmo conteúdo. `generate_lead` é
+empurrado ao `dataLayer` antes do redirect, com `eventCallback` e teto de 1,2s para não
+prender quem recusou os cookies.
+
+**Nenhuma dependência nova.** A home passou de 96,2 kB para 101 kB de First Load JS.
 
 ---
 

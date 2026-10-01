@@ -38,7 +38,7 @@ export function Problema() {
     <Section id="problema" labelledBy="problema-titulo">
       <SectionHeader
         id="problema-titulo"
-        overline="O diagnóstico"
+        eyebrow="O diagnóstico"
         title="Na maioria das operações, o problema não é falta de lead."
         lead="É a distância entre quem gera o contato e quem atende. Entre o clique no anúncio e a conversa que decide a venda existe um vão — e é nele que a oportunidade se perde."
       />
@@ -52,10 +52,17 @@ export function Problema() {
         ))}
       </ul>
 
-      <p className="mt-12 max-w-3xl border-l-2 border-brand pl-6 text-lead font-medium">
-        O problema nem sempre é falta de lead. Quase sempre é falta de estrutura entre
-        aquisição e atendimento.
-      </p>
+      {/*
+        Antes esta frase vinha marcada por uma barra vertical de 2px. Virou um
+        painel em laranja-claro: destaca pelo bloco de cor, não por um traço.
+        Contraste do texto sobre o painel: 6,3:1 — passa AA.
+      */}
+      <div className="mt-14 max-w-3xl rounded-lg bg-brand-soft px-8 py-8 sm:px-10 sm:py-10">
+        <p className="text-heading font-semibold text-brand-strong">
+          O problema nem sempre é falta de lead. Quase sempre é falta de estrutura entre
+          aquisição e atendimento.
+        </p>
+      </div>
     </Section>
   );
 }

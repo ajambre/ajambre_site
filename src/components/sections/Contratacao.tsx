@@ -35,7 +35,7 @@ export function Contratacao() {
     <Section labelledBy="contratacao-titulo">
       <SectionHeader
         id="contratacao-titulo"
-        overline="Modelos de contratação"
+        eyebrow="Modelos de contratação"
         title="Dois caminhos, dependendo de onde sua operação está."
         lead="Nem toda empresa precisa começar do zero. O que define o formato é o que já funciona hoje e o que está travando o resto."
       />
@@ -55,7 +55,7 @@ export function Contratacao() {
               ))}
             </ul>
 
-            <p className="mt-7 border-t border-line pt-5 text-xs leading-relaxed text-muted">
+            <p className="mt-7 text-xs leading-relaxed text-muted">
               {modelo.nota}
             </p>
           </article>

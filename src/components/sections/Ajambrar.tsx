@@ -1,4 +1,5 @@
 import { Section, SectionHeader } from "@/components/ui/Section";
+import { Timeline } from "@/components/ui/Timeline";
 
 const etapas = [
   {
@@ -44,28 +45,25 @@ export function Ajambrar() {
     <Section id="como-funciona" tone="surface" labelledBy="ajambrar-titulo">
       <SectionHeader
         id="ajambrar-titulo"
-        overline="O método"
+        eyebrow="O método"
         title="Ajambrar é fazer as partes se encaixarem."
         lead="Ajambrar, aqui, não é improviso: é encaixe. Cada etapa entrega algo para a próxima e devolve informação para a anterior. É isso que transforma peças soltas em operação."
       />
 
-      <ol className="mt-14 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
-        {etapas.map((etapa, index) => (
-          <li key={etapa.titulo} className="group bg-bg p-7">
-            <span className="text-overline font-semibold text-brand">
-              {String(index + 1).padStart(2, "0")}
-            </span>
-            <h3 className="mt-4 text-heading font-semibold">{etapa.titulo}</h3>
-            <p className="mt-2.5 text-sm leading-relaxed text-muted">{etapa.texto}</p>
-          </li>
-        ))}
-      </ol>
+      <Timeline items={etapas} />
 
-      <p className="mt-10 max-w-2xl text-sm leading-relaxed text-muted">
-        <strong className="font-semibold text-ink">O ciclo não termina em otimizar.</strong> O que
-        a análise mostra muda a campanha seguinte, a página seguinte e a conversa seguinte. É por
-        isso que aquisição e atendimento precisam ser tratados como o mesmo sistema.
-      </p>
+      {/*
+        Fechamento do ciclo: a timeline termina em "Otimizar", e esta nota
+        explica que o fluxo volta ao início. Fica dentro de um painel suave
+        para encerrar a seção sem precisar de mais um traço separador.
+      */}
+      <div className="mt-12 max-w-2xl rounded-lg bg-brand-soft px-7 py-6">
+        <p className="text-sm leading-relaxed text-brand-strong">
+          <strong className="font-semibold">O ciclo não termina em otimizar.</strong> O que a
+          análise mostra muda a campanha seguinte, a página seguinte e a conversa seguinte. É por
+          isso que aquisição e atendimento precisam ser tratados como o mesmo sistema.
+        </p>
+      </div>
     </Section>
   );
 }

@@ -2,6 +2,7 @@ import { Ajambrar } from "@/components/sections/Ajambrar";
 import { Arquitetura } from "@/components/sections/Arquitetura";
 import { Contratacao } from "@/components/sections/Contratacao";
 import { CtaFinal } from "@/components/sections/CtaFinal";
+import { Diagnostico } from "@/components/sections/Diagnostico";
 import { Ecossistema } from "@/components/sections/Ecossistema";
 import { Hero } from "@/components/sections/Hero";
 import { Investimento } from "@/components/sections/Investimento";
@@ -21,6 +22,7 @@ export default function HomePage() {
       <Contratacao />
       <Investimento />
       <Processo />
+      <Diagnostico />
       <CtaFinal />
     </>
   );

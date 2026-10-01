@@ -24,8 +24,44 @@ export const siteConfig = {
     "rápido e acompanhamento até o fim.",
 } as const;
 
-/** Canal de contato padrão enquanto o WhatsApp oficial não for confirmado. */
-export const contactHref = `mailto:${siteConfig.email}`;
+/**
+ * WhatsApp oficial. Vem do ambiente porque é dado de contato que muda sem
+ * envolver código — e para o número não ficar versionado no repositório.
+ *
+ * Só dígitos, com DDI e DDD (ex.: 5511999999999). Se a variável não estiver
+ * definida no ambiente de build, tudo cai de volta para o e-mail: a ausência
+ * de configuração nunca pode quebrar o CTA.
+ */
+const whatsappNumber = (process.env.NEXT_PUBLIC_WHATSAPP || "").replace(/\D/g, "");
+
+const whatsappMessage =
+  "Olá! Vim pelo site da AJAMBRE e quero entender como funciona.";
+
+export const whatsappHref = whatsappNumber
+  ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
+  : null;
+
+export const mailtoHref = `mailto:${siteConfig.email}`;
+
+/**
+ * Monta um link de WhatsApp com mensagem própria — usado pelo diagnóstico,
+ * que precisa levar as respostas já escritas na conversa.
+ *
+ * Devolve `null` quando não há número configurado no build. Quem chama decide
+ * o caminho alternativo (hoje, e-mail): assim nenhuma tela quebra por falta de
+ * variável de ambiente, que é exatamente a situação da Vercel até o cadastro
+ * das env vars.
+ */
+export function buildWhatsappHref(mensagem: string): string | null {
+  if (!whatsappNumber) return null;
+  return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(mensagem)}`;
+}
+
+/**
+ * Canal de contato principal dos CTAs: WhatsApp quando configurado,
+ * e-mail como alternativa sempre disponível.
+ */
+export const contactHref = whatsappHref ?? mailtoHref;
 
 export const nav = [
   { label: "O problema", href: "/#problema" },

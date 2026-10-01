@@ -22,7 +22,7 @@ export function LegalPage({
       <div className="border-b border-line bg-surface">
         <div className="container py-16 sm:py-20">
           <div className="max-w-3xl">
-            <p className="overline">{siteConfig.name}</p>
+            <p className="eyebrow">{siteConfig.name}</p>
             <h1 className="mt-6 text-title font-bold">{titulo}</h1>
             <p className="mt-5 text-lead text-muted">{resumo}</p>
             <p className="mt-6 text-sm text-muted">

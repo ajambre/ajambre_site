@@ -167,6 +167,22 @@ aos outros produtos**.
   11 páginas estáticas, verificadas por HTTP no servidor de produção
 - ⚠️ **`C:` perto do limite de disco** — se o build falhar por espaço, ver `README.md`
 - ⚠️ **URL do Business Scanner não confirmada** — produto apresentado sem link
-- ⚠️ **WhatsApp não confirmado** — todos os CTAs usam `mailto:contato@ajambre.com.br`
+- ✅ **WhatsApp confirmado** — CTAs usam `wa.me` via `NEXT_PUBLIC_WHATSAPP`; e-mail segue
+  como alternativa, e sem a variável tudo volta para `mailto:`
+- ✅ **GTM implementado** com consentimento real: nada carrega antes do aceite
+- 🔴 **Env vars ainda não cadastradas na Vercel** — em produção o site segue sem tracking
+  e com CTA de e-mail até que sejam definidas e um novo deploy rode
 - ⚠️ **Referências visuais ainda não fornecidas** — não cristalizar identidade visual
   complexa; a base atual é propositalmente sóbria para ser refinada depois
+
+### Armadilha já encontrada: nome de classe colidindo com utilitário do Tailwind
+
+A classe de componente chamava-se `.overline`. Como `overline` **também é um utilitário
+nativo do Tailwind** (`text-decoration-line: overline`) e a camada de utilities vem depois
+da de components, o Tailwind desenhava um traço acima de **todo rótulo do site** — sem que
+nada no CSS do projeto pedisse isso.
+
+A classe virou `.eyebrow` e a prop do `SectionHeader` também. **Não renomear de volta** e
+não criar classes de componente com nome de utilitário do Tailwind (`overline`, `underline`,
+`truncate`, `container`, `block`, `grid`…). O token de tamanho `text-overline` é outra coisa
+e continua válido.

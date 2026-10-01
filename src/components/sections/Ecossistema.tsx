@@ -8,7 +8,7 @@ export function Ecossistema() {
       <SectionHeader
         id="ecossistema-titulo"
         onDark
-        overline="Tecnologia AJAMBRE"
+        eyebrow="Tecnologia AJAMBRE"
         title="O ecossistema que sustenta a operação."
         lead="Não são ferramentas avulsas contratadas de terceiros. São produtos e arquiteturas da própria AJAMBRE, pensados para funcionarem conectados ao que a operação já faz."
       />
@@ -84,14 +84,14 @@ function Produto({
 }) {
   return (
     <article className="flex flex-col rounded-lg border border-carbon-line bg-carbon-soft p-8">
-      <h3 className="text-overline font-semibold uppercase text-brand">{nome}</h3>
+      <h3 className="text-overline font-semibold uppercase text-brand-light">{nome}</h3>
       <p className="mt-4 text-heading font-semibold text-white">{chamada}</p>
       <p className="mt-3 text-sm leading-relaxed text-white/65">{texto}</p>
 
       <ul className="mt-6 flex-1 space-y-2">
         {itens.map((item) => (
           <li key={item} className="flex items-start gap-2.5 text-sm text-white/75">
-            <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brand" />
+            <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brand-light" />
             {item}
           </li>
         ))}
@@ -107,7 +107,7 @@ function Produto({
           {cta.label}
         </ButtonLink>
       ) : (
-        <p className="mt-7 border-t border-carbon-line pt-5 text-xs leading-relaxed text-white/45">
+        <p className="mt-7 text-xs leading-relaxed text-white/45">
           {nota}
         </p>
       )}

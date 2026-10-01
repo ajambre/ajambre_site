@@ -7,7 +7,7 @@ export function Investimento() {
     <Section id="investimento" tone="surface" labelledBy="investimento-titulo">
       <SectionHeader
         id="investimento-titulo"
-        overline="Investimento"
+        eyebrow="Investimento"
         title="Os valores que já estão definidos."
         lead="Sem tabela de planos, sem letra miúda. Estes são os pontos de partida; o restante depende do escopo e é conversado antes de qualquer proposta."
       />
